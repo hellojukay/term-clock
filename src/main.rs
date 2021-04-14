@@ -7,21 +7,20 @@ use std::{io, usize};
 use std::time::Duration;
 
 struct Screen {
-    buffer: usize,
     term: Term,
 }
 impl Screen {
     pub fn write(self: &mut Self, str: &str) {
         self.term.move_cursor_to(0, 0).unwrap();
-        let len = str.as_bytes().len();
+        self.clear();
+        self.term.move_cursor_to(0, 0).unwrap();
         println!("{}", str);
-        self.buffer = len;
     }
     pub fn clear(self : &Self) {
         self.term.move_cursor_to(0, 0).unwrap();
         if let Some((w, h)) = term_size::dimensions() {
             let mut s = String::from("");
-            for _ in (0..h+1){
+            for _ in 0..h {
                 s.push_str(" ".repeat(w).as_str());
                 s.push_str("\n");
             }
@@ -36,7 +35,6 @@ impl Screen {
     pub fn new() -> Self {
         let screen = Screen{
             term: Term::stdout(),
-            buffer: 0 as usize,
         };
         screen.term.hide_cursor().unwrap();
         screen
@@ -53,6 +51,5 @@ fn main() -> io::Result<()> {
         screen.write(figure.unwrap().to_string().as_str());
         // we sleep for 2 seconds
         sleep(Duration::new(1, 0));
-        screen.clear();
     }
 }
