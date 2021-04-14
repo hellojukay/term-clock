@@ -1,8 +1,9 @@
 use chrono::Local;
 use console::Term;
 use figlet_rs::FIGfont;
-use std::{io, usize};
 use std::thread::sleep;
+use std::{io, usize};
+
 use std::time::Duration;
 
 struct Screen {
@@ -11,13 +12,23 @@ struct Screen {
 }
 impl Screen {
     pub fn write(self: &mut Self, str: &str) {
+        self.term.move_cursor_to(0, 0).unwrap();
         let len = str.as_bytes().len();
         println!("{}", str);
         self.buffer = len;
     }
     pub fn clear(self : &Self) {
         self.term.move_cursor_to(0, 0).unwrap();
-        self.term.clear_chars(self.buffer).unwrap();
+        if let Some((w, h)) = term_size::dimensions() {
+            let mut s = String::from("");
+            for _ in (0..h+1){
+                s.push_str(" ".repeat(w).as_str());
+                s.push_str("\n");
+            }
+            println!("{}",s);
+        } else {
+            panic!("can not get terminal size");
+        }
     }
     pub fn clean_all(self:  &Self){
         self.term.clear_screen().unwrap();
