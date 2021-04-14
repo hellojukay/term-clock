@@ -2,7 +2,7 @@ use chrono::Local;
 use console::Term;
 use figlet_rs::FIGfont;
 use std::thread::sleep;
-use std::{io, usize};
+use std::{io};
 
 use std::time::Duration;
 
