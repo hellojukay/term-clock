@@ -10,26 +10,26 @@ struct Screen {
     term: Term,
 }
 impl Screen {
-    pub fn write(self: &mut Self, str: &str) {
+    pub fn write(&mut self, str: &str) {
         self.term.move_cursor_to(0, 0).unwrap();
         self.clear();
         self.term.move_cursor_to(0, 0).unwrap();
         println!("{}", str);
     }
-    pub fn clear(self : &Self) {
+    pub fn clear(&self) {
         self.term.move_cursor_to(0, 0).unwrap();
         if let Some((w, h)) = term_size::dimensions() {
             let mut s = String::from("");
             for _ in 0..h {
                 s.push_str(" ".repeat(w).as_str());
-                s.push_str("\n");
+                s.push('\n');
             }
             println!("{}",s);
         } else {
             panic!("can not get terminal size");
         }
     }
-    pub fn clean_all(self:  &Self){
+    pub fn clean_all(&self){
         self.term.clear_screen().unwrap();
     }
     pub fn new() -> Self {
