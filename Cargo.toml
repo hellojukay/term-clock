@@ -1,7 +1,7 @@
 [package]
 name = "term-clock"
 version = "0.1.0"
-authors = ["hellojukay <hellojukay@hellojukay@163.com>"]
+authors = ["hellojukay <hellojukay@163.com>"]
 edition = "2018"
 description = "a clock runing in terminal ui"
 license-file = "LICENSE"
