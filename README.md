@@ -1,4 +1,7 @@
 # term-clock
-terminal clock 
 
+# install
+```bash
+cargo install term-clock
+```
 ![image](clock.png)
