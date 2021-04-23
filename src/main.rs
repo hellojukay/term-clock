@@ -49,7 +49,7 @@ fn main() -> io::Result<()> {
         let figure = standard_font.convert(date.format("%H:%M:%S").to_string().as_str());
         assert!(figure.is_some());
         screen.write(figure.unwrap().to_string().as_str());
-        // we sleep for 2 seconds
+        // we sleep for 1 seconds
         sleep(Duration::new(1, 0));
     }
 }
