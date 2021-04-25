@@ -26,6 +26,9 @@ impl Screen {
 }
 
 fn main() -> io::Result<()> {
+    let t = terminal::stdout();
+    t.act(Action::HideCursor).unwrap();
+    
     let mut  screen = Screen::new();
     let standard_font = FIGfont::standand().unwrap();
     loop {
