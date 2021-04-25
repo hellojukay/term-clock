@@ -6,7 +6,7 @@ edition = "2018"
 description = "a clock runing in terminal ui"
 license-file = "LICENSE"
 homepage = "https://github.com/hellojukay/term-clock"
-document = "https://github.com/hellojukay/term-clock"
+documentation = "https://github.com/hellojukay/term-clock"
 
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
