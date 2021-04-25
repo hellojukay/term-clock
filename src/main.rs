@@ -1,55 +1,38 @@
 use chrono::Local;
-use console::Term;
 use figlet_rs::FIGfont;
 use std::thread::sleep;
 use std::{io};
 
 use std::time::Duration;
+use std::io::{Write};
+use terminal::{Clear, Action};
 
 struct Screen {
-    term: Term,
 }
+
 impl Screen {
     pub fn write(&mut self, str: &str) {
-        self.term.move_cursor_to(0, 0).unwrap();
-        self.clear();
-        self.term.move_cursor_to(0, 0).unwrap();
         println!("{}", str);
+        std::io::stdout().flush().unwrap();
     }
     pub fn clear(&self) {
-        self.term.move_cursor_to(0, 0).unwrap();
-        if let Some((w, h)) = term_size::dimensions() {
-            let mut s = String::from("");
-            for _ in 0..h {
-                s.push_str(" ".repeat(w).as_str());
-                s.push('\n');
-            }
-            println!("{}",s);
-        } else {
-            panic!("can not get terminal size");
-        }
-    }
-    pub fn clean_all(&self){
-        self.term.clear_screen().unwrap();
+        let t = terminal::stdout();
+        t.act(Action::ClearTerminal(Clear::All)).unwrap();
+        t.batch(Action::MoveCursorTo(0, 0)).unwrap();
     }
     pub fn new() -> Self {
-        let screen = Screen{
-            term: Term::stdout(),
-        };
-        screen.term.hide_cursor().unwrap();
-        screen
+        Screen{}
     }
 }
+
 fn main() -> io::Result<()> {
     let mut  screen = Screen::new();
-    screen.clean_all();
+    let standard_font = FIGfont::standand().unwrap();
     loop {
         let date = Local::now();
-        let standard_font = FIGfont::standand().unwrap();
         let figure = standard_font.convert(date.format("%H:%M:%S").to_string().as_str());
-        assert!(figure.is_some());
+        screen.clear();
         screen.write(figure.unwrap().to_string().as_str());
-        // we sleep for 1 seconds
         sleep(Duration::new(1, 0));
     }
 }
