@@ -12,13 +12,11 @@ struct Screen {
 
 impl Screen {
     pub fn write(&mut self, str: &str) {
-        println!("{}", str);
-        std::io::stdout().flush().unwrap();
-    }
-    pub fn clear(&self) {
         let t = terminal::stdout();
         t.act(Action::ClearTerminal(Clear::All)).unwrap();
         t.batch(Action::MoveCursorTo(0, 0)).unwrap();
+        println!("{}", str);
+        std::io::stdout().flush().unwrap();
     }
     pub fn new() -> Self {
         Screen{}
@@ -26,15 +24,11 @@ impl Screen {
 }
 
 fn main() -> io::Result<()> {
-    let t = terminal::stdout();
-    t.act(Action::HideCursor).unwrap();
-    
     let mut  screen = Screen::new();
     let standard_font = FIGfont::standand().unwrap();
     loop {
         let date = Local::now();
         let figure = standard_font.convert(date.format("%H:%M:%S").to_string().as_str());
-        screen.clear();
         screen.write(figure.unwrap().to_string().as_str());
         sleep(Duration::new(1, 0));
     }
