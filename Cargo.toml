@@ -1,6 +1,6 @@
 [package]
 name = "term-clock"
-version = "0.1.2"
+version = "0.1.3"
 authors = ["hellojukay <hellojukay@163.com>"]
 edition = "2018"
 description = "a clock runing in terminal ui"
